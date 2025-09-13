@@ -1,4 +1,4 @@
-package main
+package repl
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jmaeagle99/pokedexcli/command"
+	"github.com/jmaeagle99/pokedexcli/internal/command"
 )
 
 func cleanInput(text string) []string {
@@ -54,7 +54,7 @@ func getCommands() map[string]command.CliCommand {
 	return commands
 }
 
-func runRepl() {
+func RunRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	commands := getCommands()
 	for true {
