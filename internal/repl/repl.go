@@ -20,43 +20,9 @@ func cleanInput(text string) []string {
 	return result
 }
 
-func createHelpCallback(commands map[string]command.CliCommand) func() error {
-	var helpCallback func() error
-	helpCallback = func() error {
-		fmt.Println("Welcome to the Pokedex!")
-		fmt.Println("Usage:")
-		fmt.Println()
-		for key, value := range commands {
-			fmt.Printf("%s: %s\n", key, value.Description)
-		}
-		return nil
-	}
-	return helpCallback
-}
-
-func createHelpCommand(commands map[string]command.CliCommand) command.CliCommand {
-	return command.CliCommand {
-		Name: "help",
-		Description: "Displays a help message",
-		Callback: createHelpCallback(commands),
-	}
-}
-
-func getCommands() map[string]command.CliCommand {
-	commands := make(map[string]command.CliCommand)
-
-	exitCommand := command.NewExitCommand()
-	commands[exitCommand.Name] = exitCommand
-
-	helpCommand := createHelpCommand(commands)
-	commands[helpCommand.Name] = helpCommand
-
-	return commands
-}
-
 func RunRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
-	commands := getCommands()
+	commands := command.NewCommandMap()
 	for true {
 		fmt.Print("Pokedex > ")
 		if scanner.Scan() {
