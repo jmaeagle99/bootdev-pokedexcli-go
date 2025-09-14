@@ -3,6 +3,8 @@ package command
 import (
 	"fmt"
 	"sort"
+
+	"github.com/jmaeagle99/pokedexcli/internal/pokecache"
 )
 
 type CliCommand struct {
@@ -12,6 +14,7 @@ type CliCommand struct {
 }
 
 type CommandConfig struct {
+	Cache       pokecache.Cache
 	PreviousUrl string
 	NextUrl     string
 }

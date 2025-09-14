@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/jmaeagle99/pokedexcli/internal/command"
+	"github.com/jmaeagle99/pokedexcli/internal/pokecache"
 )
 
 func cleanInput(text string) []string {
@@ -23,6 +25,7 @@ func cleanInput(text string) []string {
 func RunRepl() {
 	commands := command.NewCommandMap()
 	config := command.CommandConfig{
+		Cache:       *pokecache.NewCache(5 * time.Second),
 		NextUrl:     "",
 		PreviousUrl: "",
 	}
