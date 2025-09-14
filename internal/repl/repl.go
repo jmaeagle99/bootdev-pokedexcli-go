@@ -21,14 +21,19 @@ func cleanInput(text string) []string {
 }
 
 func RunRepl() {
-	scanner := bufio.NewScanner(os.Stdin)
 	commands := command.NewCommandMap()
-	for true {
+	config := command.CommandConfig{
+		NextUrl:     "",
+		PreviousUrl: "",
+	}
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
 		fmt.Print("Pokedex > ")
 		if scanner.Scan() {
 			tokens := cleanInput(scanner.Text())
 			if command, ok := commands[tokens[0]]; ok {
-				err := command.Callback()
+				err := command.Callback(&config)
 				if err != nil {
 					fmt.Fprintln(os.Stderr, err)
 				}

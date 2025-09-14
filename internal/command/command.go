@@ -2,17 +2,22 @@ package command
 
 import (
 	"fmt"
+	"sort"
 )
 
 type CliCommand struct {
 	Name        string
 	Description string
-	Callback    func() error
+	Callback    func(*CommandConfig) error
 }
 
-func createHelpCallback(commandMap map[string]CliCommand) func() error {
-	var helpCallback func() error
-	helpCallback = func() error {
+type CommandConfig struct {
+	PreviousUrl string
+	NextUrl     string
+}
+
+func createHelpCallback(commandMap map[string]CliCommand) func(*CommandConfig) error {
+	var helpCallback = func(*CommandConfig) error {
 		fmt.Println("Welcome to the Pokedex!")
 		fmt.Println("Usage:")
 		fmt.Println()
@@ -25,21 +30,26 @@ func createHelpCallback(commandMap map[string]CliCommand) func() error {
 }
 
 func createHelpCommand(commandMap map[string]CliCommand) CliCommand {
-	return CliCommand {
-		Name: "help",
+	return CliCommand{
+		Name:        "help",
 		Description: "Displays a help message",
-		Callback: createHelpCallback(commandMap),
+		Callback:    createHelpCallback(commandMap),
 	}
 }
 
 func NewCommandMap() map[string]CliCommand {
 	commandMap := make(map[string]CliCommand)
 
-	commands := []CliCommand {
+	commands := []CliCommand{
 		NewExitCommand(),
-		NewMapCommand(),
+		NewMapBackCommand(),
+		NewMapNextCommand(),
 		createHelpCommand(commandMap),
 	}
+
+	sort.Slice(commands, func(i, j int) bool {
+		return commands[i].Name < commands[j].Name
+	})
 
 	for _, command := range commands {
 		commandMap[command.Name] = command

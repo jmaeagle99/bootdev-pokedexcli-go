@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func newExitCallback() error {
+func newExitCallback(config *CommandConfig) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
@@ -13,8 +13,8 @@ func newExitCallback() error {
 
 func NewExitCommand() CliCommand {
 	return CliCommand{
-		Name: "exit",
+		Name:        "exit",
 		Description: "Exit the Pokedex",
-		Callback: newExitCallback,
+		Callback:    newExitCallback,
 	}
 }
