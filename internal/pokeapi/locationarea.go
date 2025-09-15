@@ -2,44 +2,74 @@ package pokeapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
-
-	"github.com/jmaeagle99/pokedexcli/internal/pokecache"
 )
 
 type LocationArea struct {
-	Name string `json:"name"`
+	Name       string             `json:"name"`
+	Encounters []PokemonEncounter `json:"pokemon_encounter"`
 }
 
-func GetLocationAreasResult(url string, cache *pokecache.Cache) (PageableResult[LocationArea], error) {
-	if len(url) == 0 {
-		url = "https://pokeapi.co/api/v2/location-area"
-	}
+func (client *PokeApiClient) GetLocationArea(name string) (LocationArea, error) {
+	url := fmt.Sprintf("%slocation-area/%s", client.baseUrl, name)
 
 	var data []byte
-	data, ok := cache.Get(url)
+	data, ok := client.cache.Get(url)
 
 	if !ok {
 		resp, err := http.Get(url)
 		if err != nil {
-			return PageableResult[LocationArea]{}, err
+			return LocationArea{}, err
 		}
 		defer resp.Body.Close()
 
 		data, err = io.ReadAll(resp.Body)
 		if err != nil {
-			return PageableResult[LocationArea]{}, err
+			return LocationArea{}, err
 		}
 	}
 
-	var result PageableResult[LocationArea]
+	var result LocationArea
 	err := json.Unmarshal(data, &result)
 	if err != nil {
-		return PageableResult[LocationArea]{}, err
+		return LocationArea{}, err
 	}
 
-	cache.Add(url, data)
+	client.cache.Add(url, data)
+
+	return result, nil
+}
+
+func (client *PokeApiClient) GetLocationAreas(url string) (PageableResult[NamedApiResource], error) {
+	if len(url) == 0 {
+		url = fmt.Sprintf("%slocation-area", client.baseUrl)
+	}
+
+	var data []byte
+	data, ok := client.cache.Get(url)
+
+	if !ok {
+		resp, err := http.Get(url)
+		if err != nil {
+			return PageableResult[NamedApiResource]{}, err
+		}
+		defer resp.Body.Close()
+
+		data, err = io.ReadAll(resp.Body)
+		if err != nil {
+			return PageableResult[NamedApiResource]{}, err
+		}
+	}
+
+	var result PageableResult[NamedApiResource]
+	err := json.Unmarshal(data, &result)
+	if err != nil {
+		return PageableResult[NamedApiResource]{}, err
+	}
+
+	client.cache.Add(url, data)
 
 	return result, nil
 }

@@ -7,7 +7,9 @@ import (
 )
 
 func newMapNextCallback(config *CommandConfig) error {
-	result, err := pokeapi.GetLocationAreasResult(config.NextUrl, &config.Cache)
+	client := pokeapi.NewApiClient(&config.Cache)
+
+	result, err := client.GetLocationAreas(config.NextUrl)
 	if err != nil {
 		return err
 	}
