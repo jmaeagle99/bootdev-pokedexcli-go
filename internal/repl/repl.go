@@ -36,7 +36,7 @@ func RunRepl() {
 		if scanner.Scan() {
 			tokens := cleanInput(scanner.Text())
 			if command, ok := commands[tokens[0]]; ok {
-				err := command.Callback(&config)
+				err := command.Callback(&config, tokens[1:])
 				if err != nil {
 					fmt.Fprintln(os.Stderr, err)
 				}

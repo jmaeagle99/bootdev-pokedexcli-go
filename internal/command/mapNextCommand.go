@@ -6,7 +6,7 @@ import (
 	"github.com/jmaeagle99/pokedexcli/internal/pokeapi"
 )
 
-func newMapNextCallback(config *CommandConfig) error {
+func newMapNextCallback(config *CommandConfig, args []string) error {
 	client := pokeapi.NewApiClient(&config.Cache)
 
 	result, err := client.GetLocationAreas(config.NextUrl)

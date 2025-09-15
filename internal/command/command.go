@@ -10,7 +10,7 @@ import (
 type CliCommand struct {
 	Name        string
 	Description string
-	Callback    func(*CommandConfig) error
+	Callback    func(config *CommandConfig, args []string) error
 }
 
 type CommandConfig struct {
@@ -19,8 +19,8 @@ type CommandConfig struct {
 	NextUrl     string
 }
 
-func createHelpCallback(commandMap map[string]CliCommand) func(*CommandConfig) error {
-	var helpCallback = func(*CommandConfig) error {
+func createHelpCallback(commandMap map[string]CliCommand) func(*CommandConfig, []string) error {
+	var helpCallback = func(*CommandConfig, []string) error {
 		fmt.Println("Welcome to the Pokedex!")
 		fmt.Println("Usage:")
 		fmt.Println()
@@ -45,6 +45,7 @@ func NewCommandMap() map[string]CliCommand {
 
 	commands := []CliCommand{
 		NewExitCommand(),
+		NewExploreCommand(),
 		NewMapBackCommand(),
 		NewMapNextCommand(),
 		createHelpCommand(commandMap),

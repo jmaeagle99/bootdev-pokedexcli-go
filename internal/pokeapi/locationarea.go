@@ -9,7 +9,7 @@ import (
 
 type LocationArea struct {
 	Name       string             `json:"name"`
-	Encounters []PokemonEncounter `json:"pokemon_encounter"`
+	Encounters []PokemonEncounter `json:"pokemon_encounters"`
 }
 
 func (client *PokeApiClient) GetLocationArea(name string) (LocationArea, error) {
