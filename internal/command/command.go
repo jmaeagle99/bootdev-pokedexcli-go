@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/jmaeagle99/pokedexcli/internal/pokeapi"
 	"github.com/jmaeagle99/pokedexcli/internal/pokecache"
 )
 
@@ -14,6 +15,7 @@ type CliCommand struct {
 }
 
 type CommandConfig struct {
+	Caught      map[string]pokeapi.Pokemon
 	Cache       pokecache.Cache
 	PreviousUrl string
 	NextUrl     string
@@ -44,6 +46,7 @@ func NewCommandMap() map[string]CliCommand {
 	commandMap := make(map[string]CliCommand)
 
 	commands := []CliCommand{
+		NewCatchCommand(),
 		NewExitCommand(),
 		NewExploreCommand(),
 		NewMapBackCommand(),

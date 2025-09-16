@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/jmaeagle99/pokedexcli/internal/command"
+	"github.com/jmaeagle99/pokedexcli/internal/pokeapi"
 	"github.com/jmaeagle99/pokedexcli/internal/pokecache"
 )
 
@@ -25,6 +26,7 @@ func cleanInput(text string) []string {
 func RunRepl() {
 	commands := command.NewCommandMap()
 	config := command.CommandConfig{
+		Caught:      make(map[string]pokeapi.Pokemon),
 		Cache:       *pokecache.NewCache(5 * time.Second),
 		NextUrl:     "",
 		PreviousUrl: "",
