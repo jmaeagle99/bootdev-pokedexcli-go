@@ -52,6 +52,7 @@ func NewCommandMap() map[string]CliCommand {
 		NewInspectCommand(),
 		NewMapBackCommand(),
 		NewMapNextCommand(),
+		NewPokedexCommand(),
 		createHelpCommand(commandMap),
 	}
 

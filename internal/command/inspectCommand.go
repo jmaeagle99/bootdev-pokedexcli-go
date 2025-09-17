@@ -18,7 +18,7 @@ func inspectCallback(config *CommandConfig, args []string) error {
 			fmt.Printf("  - %s\n", pokemon.Types[index].Type.Name)
 		}
 	} else {
-		fmt.Println("You have not caught that pokemon")
+		fmt.Println("You have not caught that pokémon")
 	}
 	return nil
 }
