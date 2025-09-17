@@ -8,8 +8,23 @@ import (
 )
 
 type Pokemon struct {
-	Name           string `json:"name"`
-	BaseExperience int    `json:"base_experience"`
+	Name           string        `json:"name"`
+	BaseExperience int           `json:"base_experience"`
+	Height         int           `json:"height"`
+	Weight         int           `json:"weight"`
+	Stats          []PokemonStat `json:"stats"`
+	Types          []PokemonType `json:"types"`
+}
+
+type PokemonStat struct {
+	Stat     NamedApiResource `json:"stat"`
+	Effort   int              `json:"effort"`
+	BaseStat int              `json:"base_stat"`
+}
+
+type PokemonType struct {
+	Order int              `json:"slot"`
+	Type  NamedApiResource `json:"type"`
 }
 
 func (client *PokeApiClient) GetPokemon(name string) (Pokemon, error) {

@@ -49,6 +49,7 @@ func NewCommandMap() map[string]CliCommand {
 		NewCatchCommand(),
 		NewExitCommand(),
 		NewExploreCommand(),
+		NewInspectCommand(),
 		NewMapBackCommand(),
 		NewMapNextCommand(),
 		createHelpCommand(commandMap),
